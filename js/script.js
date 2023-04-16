@@ -8,10 +8,24 @@ const remainingSpan = document.querySelector(".remaining span");
 const message = document.querySelector(".message");
 const playAgainButton = document.querySelector(".play-again");
 
-const word = "man";
-
+let word = "mad";
 // Array for guessed letters:
 const guessedLetters = [];
+let remainingGuesses = 8;
+
+// get API
+const getWord = async function () {
+    const res = await fetch("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt");
+    const data = await res.text();
+    // Get a random word:
+    const wordArray = data.split("\n");
+    const randomIndex = Math.floor(Math.random() * wordArray.length);
+    word = wordArray[randomIndex].trim();
+    placeholder(word);
+};
+
+// Let's get ready to rumble!
+getWord();
 
 // Letter placeholder (●)
 const placeholder = function (word) {
@@ -81,12 +95,13 @@ const makeGuess = function (guess) {
         guessedLetters.push(guess);
         console.log(guessedLetters);
         showGuessedLetters();
+        countRemainingGuesses(guess);
         updateWordInProgress(guessedLetters);
     }
 };
 
 // Show the guessed letters:
-const showGuessedLetters = function() {
+const showGuessedLetters = function () {
 
     //First clear list
     guessedLettersElement.innerHTML = "";
@@ -99,8 +114,8 @@ const showGuessedLetters = function() {
     }
 };
 
-// Update word in progress
-const updateWordInProgress =  function(guessedLetters) {
+// Update word in progress:
+const updateWordInProgress = function (guessedLetters) {
     const wordUpper = word.toUpperCase();
     const wordArray = wordUpper.split("");
 
@@ -118,6 +133,33 @@ const updateWordInProgress =  function(guessedLetters) {
     // Reveal word:
     wordInProgress.innerText = revealWord.join("");
     ifWins();
+};
+
+// Count remaining guesses:
+const countRemainingGuesses = function (guess) {
+
+    // Output message for correct/incorrect guess:
+    const wordUp = word.toUpperCase();
+    if (!wordUp.includes(guess)) {
+        message.innerText = `No, there is no ${guess}. Try again!`;
+        // Subtract 1 from remaining guesses:
+        remainingGuesses -= 1;
+    } else {
+        message.innerText = `Yes! ${guess} is a letter we're looking for.`;
+    }
+
+    // If they lose:
+    if (remainingGuesses === 0) {
+        message.innerHTML = `Game over! The word is <span class="highlight">${word}</span>.`
+    }
+    // 1 guess left:
+    else if (remainingGuesses === 1) {
+        remainingSpan.innerText = "Only ONE guess";
+    }
+    // How many left?
+    else {
+        remainingSpan.innerText = `${remainingGuesses} guesses`;
+    }
 };
 
 // Check if player wins:
