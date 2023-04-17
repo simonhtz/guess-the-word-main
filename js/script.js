@@ -10,7 +10,7 @@ const playAgainButton = document.querySelector(".play-again");
 
 let word = "mad";
 // Array for guessed letters:
-const guessedLetters = [];
+let guessedLetters = [];
 let remainingGuesses = 8;
 
 // get API
@@ -167,5 +167,34 @@ const ifWins = function () {
     if (word.toUpperCase() === wordInProgress.innerText) {
         message.classList.add("win");
         message.innerHTML = `<p class="highlight">You guessed the correct word! Congrats!</p>`;
+        
+        startOver();
     }
 };
+
+// Play again
+const startOver = function () {
+    guessButton.classList.add("hide");
+    guessedLettersElement.classList.add("hide");
+    remaining.classList.add("hide");
+    playAgainButton.classList.remove("hide");
+};
+
+// Play again button:
+playAgainButton.addEventListener("click", function () {
+    message.classList.remove("win");
+    message.innerText = "";
+    guessedLettersElement.innerHTML = "";
+    guessedLetters = [];
+    remainingGuesses = 8;
+    remainingSpan.innerText = `${remainingGuesses} guesses`;
+
+    // Get new word:
+    getWord();
+
+    // Show the right UI elements once more:
+    guessButton.classList.remove("hide");
+    guessedLettersElement.classList.remove("hide");
+    remaining.classList.remove("hide");
+    playAgainButton.classList.add("hide");
+});
