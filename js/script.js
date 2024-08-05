@@ -153,7 +153,7 @@ const countRemainingGuesses = function (guess) {
     }
     // 1 guess left:
     else if (remainingGuesses === 1) {
-        remainingSpan.innerText = "Only ONE guess";
+        remainingSpan.innerText = "only ONE guess";
     }
     // How many left?
     else {
