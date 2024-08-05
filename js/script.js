@@ -151,6 +151,7 @@ const countRemainingGuesses = function (guess) {
     // If they lose:
     if (remainingGuesses === 0) {
         message.innerHTML = `Game over! The word is <span class="highlight">${word}</span>.`
+        startOver();
     }
     // 1 guess left:
     else if (remainingGuesses === 1) {
