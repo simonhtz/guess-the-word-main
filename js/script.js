@@ -35,7 +35,6 @@ const placeholder = function (word) {
     }
     wordInProgress.innerText = placeholderLetters.join("");
 };
-placeholder(word);
 
 // Adding event listener to button
 guessButton.addEventListener("click", function (e) {
@@ -93,7 +92,6 @@ const makeGuess = function (guess) {
     // Add the letter to the guessed letters list:
     else {
         guessedLetters.push(guess);
-        console.log(guessedLetters);
         showGuessedLetters();
         countRemainingGuesses(guess);
         updateWordInProgress(guessedLetters);
@@ -151,10 +149,11 @@ const countRemainingGuesses = function (guess) {
     // If they lose:
     if (remainingGuesses === 0) {
         message.innerHTML = `Game over! The word is <span class="highlight">${word}</span>.`
+        startOver();
     }
     // 1 guess left:
     else if (remainingGuesses === 1) {
-        remainingSpan.innerText = "Only ONE guess";
+        remainingSpan.innerText = "only ONE guess";
     }
     // How many left?
     else {
