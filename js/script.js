@@ -92,7 +92,6 @@ const makeGuess = function (guess) {
     // Add the letter to the guessed letters list:
     else {
         guessedLetters.push(guess);
-        console.log(guessedLetters);
         showGuessedLetters();
         countRemainingGuesses(guess);
         updateWordInProgress(guessedLetters);
